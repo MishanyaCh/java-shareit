@@ -19,35 +19,35 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public Map<String, String> handleEmailValidationException(final EmailValidationException exc) {
-        log.error("Отловлена ошибка:" + exc.getMessage());
+        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public Map<String, String> handleUserNotFoundException(final UserNotFoundException exc) {
-        log.error("Отловлена ошибка:" + exc.getMessage());
+        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public Map<String, String> handleItemNotFoundException(final ItemNotFoundException exc) {
-        log.error("Отловлена ошибка:" + exc.getMessage());
+        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public Map<String, String> handleNotItemOwnerException(final NotItemOwnerException exc) {
-        log.error("Отловлена ошибка:" + exc.getMessage());
+        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleHeaderNotFoundException(final HeaderNotFoundException exc) {
-        log.error("Отловлена ошибка:" + exc.getMessage());
+    public Map<String, String> handleHeaderNonexistentException(final HeaderNonexistentException exc) {
+        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }
 }
