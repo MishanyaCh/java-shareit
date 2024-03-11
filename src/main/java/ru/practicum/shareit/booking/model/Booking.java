@@ -29,11 +29,11 @@ public class Booking {
     @JoinColumn(name = "booker_id")
     private User booker;// пользователь, бронирующий вещь
 
-    @Column(name = "start_booking_data")
-    private LocalDateTime startBookingData; // начало бронирования
+    @Column(name = "start_booking_date")
+    private LocalDateTime startBookingDate; // начало бронирования
 
-    @Column(name = "end_booking_data")
-    private LocalDateTime endBookingData; // окончание бронирования
+    @Column(name = "end_booking_date")
+    private LocalDateTime endBookingDate; // окончание бронирования
 
     @Column(name = "booking_status")
     @Enumerated(EnumType.STRING)
@@ -42,13 +42,13 @@ public class Booking {
     public Booking() { // конструктор без параметров для работы hibernate
     }
 
-    public Booking(int idArg, Item itemArg, User bookerArg, LocalDateTime startBookingDataArg,
-                   LocalDateTime endBookingDataArg, Status statusArg) {
+    public Booking(int idArg, Item itemArg, User bookerArg, LocalDateTime startBookingDateArg,
+                   LocalDateTime endBookingDateArg, Status statusArg) {
         id = idArg;
         item = itemArg;
         booker = bookerArg;
-        startBookingData = startBookingDataArg;
-        endBookingData = endBookingDataArg;
+        startBookingDate = startBookingDateArg;
+        endBookingDate = endBookingDateArg;
         status = statusArg;
     }
 }
