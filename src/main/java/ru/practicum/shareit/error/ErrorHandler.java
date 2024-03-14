@@ -25,14 +25,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public Map<String, String> handleUserNotFoundException(final UserNotFoundException exc) {
-        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
-        return Map.of("Error", exc.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public Map<String, String> handleItemNotFoundException(final ItemNotFoundException exc) {
+    public Map<String, String> handleObjectNotFoundException(final ObjectNotFoundException exc) {
         log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }

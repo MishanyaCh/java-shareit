@@ -2,9 +2,8 @@ package ru.practicum.shareit.item.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.exception.NotItemOwnerException;
-import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.exception.ObjectNotFoundException;
 import ru.practicum.shareit.item.Storage.ItemRepository;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
@@ -43,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
         Optional<Item> optionalSavedItem = itemRepository.findById(itemId);
         if (optionalSavedItem.isEmpty()) {
             String message = String.format("Вещь с id=%d не найдена!", itemId);
-            throw new ItemNotFoundException(message);
+            throw new ObjectNotFoundException(message);
         }
         // получаем сохраненную в таблице items вещь, данные которой нужно обновить
         Item savedItem = optionalSavedItem.get();
@@ -63,10 +62,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getItem(int itemId) {
-        Optional<Item> optionalItem = itemRepository.findById(itemId); // получаем объект типа Optional
+        Optional<Item> optionalItem = itemRepository.findById(itemId);// получаем объект типа Optional
         if (optionalItem.isEmpty()) {
             String message = String.format("Вещь с id=%d не найдена!", itemId);
-            throw new ItemNotFoundException(message);
+            throw new ObjectNotFoundException(message);
         }
         Item item = optionalItem.get();// получаем значение содержащиеся в optionalItem
         return itemMapper.toItemDto(item);
@@ -87,7 +86,7 @@ public class ItemServiceImpl implements ItemService {
         boolean isUserExist = userRepository.existsById(userId);
         if (!isUserExist) {
             String message = String.format("Пользователь с id=%d не найден!", userId);
-            throw new UserNotFoundException(message);
+            throw new ObjectNotFoundException(message);
         }
     }
 

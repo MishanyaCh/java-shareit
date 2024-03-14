@@ -2,7 +2,7 @@ package ru.practicum.shareit.user.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.exception.ObjectNotFoundException;
 import ru.practicum.shareit.exception.EmailValidationException;
 import ru.practicum.shareit.user.Storage.UserRepository;
 import ru.practicum.shareit.user.model.User;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalSavedUser = userRepository.findById(id);
         if (optionalSavedUser.isEmpty()) {
             String message = String.format("Пользователь с id=%d не найден! Операция обновления невозможна", id);
-            throw new UserNotFoundException(message);
+            throw new ObjectNotFoundException(message);
         }
         // получаем сохраненного в таблице users пользователя, данные которого нужно обновить
         User savedUser = optionalSavedUser.get();
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(id);// получаем объект типа Optional
         if (optionalUser.isEmpty()) {
             String message = String.format("Пользователь с id=%d не найден!", id);
-            throw new UserNotFoundException(message);
+            throw new ObjectNotFoundException(message);
         }
         User user = optionalUser.get();// получаем значение содержащиеся в optionalUser
         return userMapper.toUserDto(user);
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
             String message = String.format("Пользователь с id=%d не найден! Операция удаления невозможна", id);
-            throw new UserNotFoundException(message);
+            throw new ObjectNotFoundException(message);
         }
         userRepository.deleteById(id);// удаляем запись в таблице users
     }
