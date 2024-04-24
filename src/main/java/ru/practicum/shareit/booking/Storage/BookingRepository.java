@@ -51,6 +51,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "ORDER BY start_booking_date DESC", nativeQuery = true)
     List<Booking> findBookingsByItemOwnerAndStartBookingDateAndEndBookingDate(int ownerId,
                                                                               LocalDateTime currentDateTime);
+
     @Query(value = "SELECT * FROM bookings " +
             "WHERE item_id IN ( SELECT id FROM items " +
                                 "WHERE owner_id = :ownerId) " +
