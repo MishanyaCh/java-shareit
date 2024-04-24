@@ -25,7 +25,7 @@ public class ItemDtoWithBookingAndComment extends ItemDto {
 
     @Override
     public String toString() {
-        String result =  "ItemDtoWithBooking{" + "id=" +  getId()+ ", name='" + getName() + '\'' +
+        String result = "ItemDtoWithBooking{" + "id=" + getId() + ", name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' + ", isAvailable=" + getIsAvailable();
 
         if (lastBooking != null) {
