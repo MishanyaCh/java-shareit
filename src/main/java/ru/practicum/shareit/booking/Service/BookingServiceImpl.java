@@ -118,8 +118,8 @@ public class BookingServiceImpl implements BookingService {
                 bookings = bookingRepository.findBookingsByBookerId(userId, sort);
                 break;
             case CURRENT:
-                bookings = bookingRepository.
-                        findBookingsByBookerIdAndStartBookingDateBeforeAndEndBookingDateAfter(userId,
+                bookings = bookingRepository
+                        .findBookingsByBookerIdAndStartBookingDateBeforeAndEndBookingDateAfter(userId,
                                 LocalDateTime.now(), LocalDateTime.now(), sort);
                 break;
             case FUTURE:
@@ -161,16 +161,16 @@ public class BookingServiceImpl implements BookingService {
                 bookings = bookingRepository.findBookingsByItemOwner(ownerId);
                 break;
             case CURRENT:
-                bookings = bookingRepository.
-                        findBookingsByItemOwnerAndStartBookingDateAndEndBookingDate(ownerId, LocalDateTime.now());
+                bookings = bookingRepository
+                        .findBookingsByItemOwnerAndStartBookingDateAndEndBookingDate(ownerId, LocalDateTime.now());
                 break;
             case FUTURE:
-                bookings = bookingRepository.
-                        findBookingsByItemOwnerAndStartBookingDateAfter(ownerId, LocalDateTime.now());
+                bookings = bookingRepository
+                        .findBookingsByItemOwnerAndStartBookingDateAfter(ownerId, LocalDateTime.now());
                 break;
             case PAST:
-                bookings = bookingRepository.
-                        findBookingsByItemOwnerAndEndBookingDateBefore(ownerId, LocalDateTime.now());
+                bookings = bookingRepository
+                        .findBookingsByItemOwnerAndEndBookingDateBefore(ownerId, LocalDateTime.now());
                 break;
             case REJECTED:
                 bookings = bookingRepository.findBookingsByItemOwnerAndStatus(ownerId, Status.REJECTED.toString());
