@@ -30,13 +30,13 @@ public class BookingDto {
     private ItemDto itemDto;
 
     public BookingDto(int idArg, LocalDateTime startBookingDateArg, LocalDateTime endBookingDateArg,
-                      String statusArg, UserDto bookerArg, ItemDto ItemArg) {
+                      String statusArg, UserDto bookerArg, ItemDto itemArg) {
         id = idArg;
         startBookingDate = startBookingDateArg;
         endBookingDate = endBookingDateArg;
         status = statusArg;
         bookerDto = bookerArg;
-        itemDto = ItemArg;
+        itemDto = itemArg;
     }
 
     @Override
