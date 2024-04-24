@@ -91,16 +91,16 @@ public class ItemServiceImpl implements ItemService {
             List<CommentDto> commentDtoList = commentMapper.toCommentDtoList(commentsForCurrentItem);
 
             if (lastBookingAndNextBooking.isEmpty()) {
-                ItemDtoWithBookingAndComment itemDto = itemMapper.
-                        toItemDtoWithBookingAndComment(item, null, null, commentDtoList);
+                ItemDtoWithBookingAndComment itemDto = itemMapper
+                        .toItemDtoWithBookingAndComment(item, null, null, commentDtoList);
                 result.add(itemDto);
                 continue;
             }
 
             Booking last = lastBookingAndNextBooking.get(0);
             Booking next = lastBookingAndNextBooking.get(1);
-            ItemDtoWithBookingAndComment itemDto = itemMapper.
-                    toItemDtoWithBookingAndComment(item, last, next, commentDtoList);
+            ItemDtoWithBookingAndComment itemDto = itemMapper
+                    .toItemDtoWithBookingAndComment(item, last, next, commentDtoList);
             result.add(itemDto);
         }
         return result;
@@ -203,8 +203,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private void checkBookingsExistence(int bookerId, int itemId) {
-        List<Booking> bookings = bookingRepository.
-                findBookingsByItemIdAndBookerIdAndStatus(itemId, bookerId, Status.APPROVED);
+        List<Booking> bookings = bookingRepository
+                .findBookingsByItemIdAndBookerIdAndStatus(itemId, bookerId, Status.APPROVED);
         if (bookings.isEmpty()) {
             String message = String.format("Добавление комментария не возможно, так как " +
                     "пользователь с id=%d не брал вещь с id=%d в аренду.", bookerId, itemId);
