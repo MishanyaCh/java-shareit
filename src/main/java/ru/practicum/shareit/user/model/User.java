@@ -34,9 +34,4 @@ public class User {
         name = nameArg;
         email = emailArg;
     }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", login='" + name + '\'' + ", email='" + email + '\'' + "}" + '\n';
-    }
 }
