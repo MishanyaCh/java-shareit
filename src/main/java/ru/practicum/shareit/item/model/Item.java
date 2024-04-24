@@ -42,16 +42,4 @@ public class Item {
         isAvailable = isAvailableArg;
         ownerId = ownerIdArg;
     }
-
-    @Override
-    public String toString() {
-        String result = "Item{" + "id=" + id + ", name='" + name + '\'';
-
-        if (description != null) {
-            result = result + ", description.length=" + description.length();
-        } else {
-            result = result + ", description.length='null'";
-        }
-        return result + ", isAvailable=" + isAvailable + ", ownerId=" + ownerId + "}" + '\n';
-    }
 }
