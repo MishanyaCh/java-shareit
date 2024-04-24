@@ -68,7 +68,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorResponse BookingException(final BookingException exc) {
+    public ErrorResponse bookingException(final BookingException exc) {
         log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return new ErrorResponse(exc.getMessage());
     }
