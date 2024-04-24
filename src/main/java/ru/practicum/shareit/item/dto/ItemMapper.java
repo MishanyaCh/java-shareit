@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item.dto;
 
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
@@ -10,4 +12,9 @@ public interface ItemMapper {
     Item toItem(ItemDto itemDto);
 
     List<ItemDto> toItemDtoList(List<Item> items);
+
+    ItemDtoWithBookingAndComment toItemDtoWithBookingAndComment(Item item,
+                                                                Booking lastBooking,
+                                                                Booking nextBooking,
+                                                                List<CommentDto> comments);
 }
