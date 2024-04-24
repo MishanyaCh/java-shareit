@@ -26,9 +26,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         User newUser = userMapper.toUser(userDto);
-        checkEmailDuplicate(newUser);
-        User createdUser = userRepository.save(newUser);// добавляем новую запись в таблицу users
-        return userMapper.toUserDto(createdUser);
+        try {
+            User createdUser = userRepository.save(newUser);// добавляем новую запись в таблицу users
+            return userMapper.toUserDto(createdUser);
+        } catch (RuntimeException exc) {
+            String checkedEmail = newUser.getEmail();
+            String message = String.format("Пользователь с почтой '%s' уже зарегистрирован!", checkedEmail);
+            throw new EmailValidationException(message);
+        }
     }
 
     @Override
@@ -41,7 +46,6 @@ public class UserServiceImpl implements UserService {
         // получаем сохраненного в таблице users пользователя, данные которого нужно обновить
         User savedUser = optionalSavedUser.get();
         User user = userMapper.toUser(userDto);// получаем обновленные данные пользователя, которые нужно обновить в БД
-        checkEmailDuplicate(user);
         User updatedUser = updateUserInDb(savedUser, user);// обновляем запись в таблице users
         return userMapper.toUserDto(updatedUser);
     }
@@ -71,26 +75,6 @@ public class UserServiceImpl implements UserService {
             throw new ObjectNotFoundException(message);
         }
         userRepository.deleteById(id);// удаляем запись в таблице users
-    }
-
-    private void checkEmailDuplicate(User user) {
-        String checkedEmail = user.getEmail();
-        int id = user.getId();
-
-        if (checkedEmail == null) {
-            return;
-        }
-
-        List<User> usersList = userRepository.findAll();
-        for (User u: usersList) {
-            if (id == u.getId()) {
-                continue;
-            }
-            if (checkedEmail.equals(u.getEmail())) {
-                String message = String.format("Пользователь с почтой '%s' уже зарегистрирован!", checkedEmail);
-                throw new EmailValidationException(message);
-            }
-        }
     }
 
     private User updateUserInDb(User savedUser, User updatedDataForUser) {
