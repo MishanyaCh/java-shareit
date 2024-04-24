@@ -219,11 +219,11 @@ public class BookingServiceImpl implements BookingService {
 
         if (endDate.isBefore(startDate)) {
             String message = "Дата окончания бронирования не может быть раньше даты начала бронирования!";
-            throw new dateTimeBookingException(message);
+            throw new DateTimeBookingException(message);
         }
         if (endDate.isEqual(startDate)) {
             String message = "Даты начала и окончания бронирования не могут совпадать!";
-            throw new dateTimeBookingException(message);
+            throw new DateTimeBookingException(message);
         }
         if (!isAvailable) {
             String message = String.format("Вещь с id=%d не доступна для бронирования!", item.getId());
