@@ -20,6 +20,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
                                                                                         LocalDateTime start,
                                                                                         LocalDateTime end,
                                                                                         Sort sort);
+    
     List<Booking> findBookingsByBookerId(int bookerId, Sort sort);
 
     @Query(value = "SELECT * FROM bookings " +
