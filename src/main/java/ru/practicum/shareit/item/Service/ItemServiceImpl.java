@@ -145,7 +145,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public CommentDto createComment(int bookerId, int itemId, CommentDto commentDto) {
-        Optional <User> optionalUser = userRepository.findById(bookerId); // получаем объект типа Optional
+        Optional<User> optionalUser = userRepository.findById(bookerId); // получаем объект типа Optional
         if (optionalUser.isEmpty()) {
             String message = String.format("Пользователь с id=%d не найден!", bookerId);
             throw new ObjectNotFoundException(message);
