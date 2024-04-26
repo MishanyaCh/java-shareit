@@ -220,7 +220,7 @@ public class ItemServiceImpl implements ItemService {
             }
         }
     }
-    
+
     private Optional<Booking> findLastPastBooking(List<Booking> bookings, int itemId) {
         List<Booking> pastBookings = new ArrayList<>();
         if (bookings.isEmpty()) {
