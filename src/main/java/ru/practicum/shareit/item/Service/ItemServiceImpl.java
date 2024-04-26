@@ -86,19 +86,16 @@ public class ItemServiceImpl implements ItemService {
 
         for (Item item : items) {
             int itemId = item.getId();
-            List<Booking> lastBookingAndNextBooking = findLastPastBookingAndNearestFutureBooking(bookings, itemId);
+            // находим последнее завершенное бронирование текущей вещи
+            Optional<Booking> optionalLastBooking = findLastPastBooking(bookings, itemId);
+            Booking last = optionalLastBooking.orElse(null);
+            // находим ближайшее следующее бронироване текущей вещи
+            Optional<Booking> optionalNextBooking = findNearestFutureBooking(bookings, itemId);
+            Booking next = optionalNextBooking.orElse(null);
+            // находим список комментариев для текущей вещи
             List<Comment> commentsForCurrentItem = findCommentsForCurrentItem(comments, itemId);
             List<CommentDto> commentDtoList = commentMapper.toCommentDtoList(commentsForCurrentItem);
 
-            if (lastBookingAndNextBooking.isEmpty()) {
-                ItemDtoWithBookingAndComment itemDto = itemMapper
-                        .toItemDtoWithBookingAndComment(item, null, null, commentDtoList);
-                result.add(itemDto);
-                continue;
-            }
-
-            Booking last = lastBookingAndNextBooking.get(0);
-            Booking next = lastBookingAndNextBooking.get(1);
             ItemDtoWithBookingAndComment itemDto = itemMapper
                     .toItemDtoWithBookingAndComment(item, last, next, commentDtoList);
             result.add(itemDto);
@@ -118,17 +115,19 @@ public class ItemServiceImpl implements ItemService {
         // находим список всех бронирований определенной вещи
         List<Booking> bookings = bookingRepository.findBookingsByItemIdAndStatusNot(itemId, Status.REJECTED,
                 Sort.by(Sort.Direction.DESC, "startBookingDate"));
-        // находим последнее завершенное бронирование и ближайшее следующее бронироване вещи
-        List<Booking> lastBookingAndNextBooking = findLastPastBookingAndNearestFutureBooking(bookings, itemId);
+        // находим последнее завершенное бронирование вещи
+        Optional<Booking> optionalLastBooking = findLastPastBooking(bookings, itemId);
+        Booking last = optionalLastBooking.orElse(null);
+        // находим ближайшее следующее бронироване вещи
+        Optional<Booking> optionalNextBooking = findNearestFutureBooking(bookings, itemId);
+        Booking next = optionalNextBooking.orElse(null);
         // находим список комментариев для опреденной вещи
         List<Comment> comments = commentRepository.findCommentsByItemId(itemId);
         List<CommentDto> commentDtoList = commentMapper.toCommentDtoList(comments);
 
-        if (userId != item.getOwnerId() || lastBookingAndNextBooking.isEmpty()) {
+        if (userId != item.getOwnerId()) {
             return itemMapper.toItemDtoWithBookingAndComment(item, null, null, commentDtoList);
         }
-        Booking last = lastBookingAndNextBooking.get(0);
-        Booking next = lastBookingAndNextBooking.get(1);
         return itemMapper.toItemDtoWithBookingAndComment(item, last, next, commentDtoList);
     }
 
@@ -221,15 +220,13 @@ public class ItemServiceImpl implements ItemService {
             }
         }
     }
-
-    private List<Booking> findLastPastBookingAndNearestFutureBooking(List<Booking> bookings, int itemId) {
-        List<Booking> result = new ArrayList<>();
+    
+    private Optional<Booking> findLastPastBooking(List<Booking> bookings, int itemId) {
         List<Booking> pastBookings = new ArrayList<>();
-        List<Booking> futureBookings = new ArrayList<>();
-
         if (bookings.isEmpty()) {
-            return result;
+            return Optional.empty();
         }
+
         for (Booking currentBooking : bookings) {
             if (currentBooking.getItem().getId() != itemId) {
                 continue;
@@ -237,8 +234,8 @@ public class ItemServiceImpl implements ItemService {
             LocalDateTime endDateCurrentBooking = currentBooking.getEndBookingDate();
             LocalDateTime startDateCurrentBooking = currentBooking.getStartBookingDate();
             if (endDateCurrentBooking.isAfter(LocalDateTime.now())) {
-                if (startDateCurrentBooking.isAfter(LocalDateTime.now())) {
-                    futureBookings.add(currentBooking);
+                if (startDateCurrentBooking.isBefore(LocalDateTime.now())) {
+                    pastBookings.add(currentBooking);
                 }
                 continue;
             }
@@ -246,17 +243,37 @@ public class ItemServiceImpl implements ItemService {
         }
 
         pastBookings.sort(new PastBookingComparator());
-        futureBookings.sort(new FutureBookingComparator());
+        if (pastBookings.isEmpty()) {
+            return Optional.empty();
+        }
+        Booking lastBooking = pastBookings.get(0);
+        return Optional.of(lastBooking);
+    }
 
-        if (!pastBookings.isEmpty()) {
-            Booking lastBooking = pastBookings.get(0);
-            result.add(lastBooking);
+    private Optional<Booking> findNearestFutureBooking(List<Booking> bookings, int itemId) {
+        List<Booking> futureBookings = new ArrayList<>();
+        if (bookings.isEmpty()) {
+            return Optional.empty();
         }
-        if (!futureBookings.isEmpty()) {
-            Booking nearestBooking = futureBookings.get(0);
-            result.add(nearestBooking);
+
+        for (Booking currentBooking : bookings) {
+            if (currentBooking.getItem().getId() != itemId) {
+                continue;
+            }
+            LocalDateTime endDateCurrentBooking = currentBooking.getEndBookingDate();
+            LocalDateTime startDateCurrentBooking = currentBooking.getStartBookingDate();
+            if (endDateCurrentBooking.isAfter(LocalDateTime.now()) &&
+                    startDateCurrentBooking.isAfter(LocalDateTime.now())) {
+                futureBookings.add(currentBooking);
+            }
         }
-        return result;
+
+        futureBookings.sort(new FutureBookingComparator());
+        if (futureBookings.isEmpty()) {
+            return Optional.empty();
+        }
+        Booking nextBooking = futureBookings.get(0);
+        return Optional.of(nextBooking);
     }
 
     private List<Comment> findCommentsForCurrentItem(List<Comment> comments, int itemId) {
