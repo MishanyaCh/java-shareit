@@ -44,7 +44,7 @@ public class ItemMapperImpl implements ItemMapper {
             last = new BookingDtoWithoutItemField(lastBooking.getId(), lastBooking.getBooker().getId(),
                     lastBooking.getStartBookingDate(), lastBooking.getEndBookingDate());
         }
-        if (lastBooking != null) {
+        if (nextBooking != null) {
             next = new BookingDtoWithoutItemField(nextBooking.getId(), nextBooking.getBooker().getId(),
                     nextBooking.getStartBookingDate(), nextBooking.getEndBookingDate());
         }
