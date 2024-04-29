@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Storage.BookingRepository;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingDtoForCreateBooking;
+import ru.practicum.shareit.booking.dto.BookingCreateRequestDto;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.enums.State;
 import ru.practicum.shareit.booking.enums.Status;
@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto createNewBooking(int userId, BookingDtoForCreateBooking bookingDto) {
+    public BookingDto createNewBooking(int userId, BookingCreateRequestDto bookingDto) {
         Booking newBooking = bookingMapper.toBooking(bookingDto);
         int itemId = newBooking.getItem().getId();
         Item savedItem = getItem(itemId); // находим вещь для бронирования в БД

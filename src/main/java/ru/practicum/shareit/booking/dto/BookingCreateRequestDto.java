@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BookingDtoForCreateBooking {
+public class BookingCreateRequestDto {
     @NotNull(message = "Поле с идентификатором бронируемой вещи должно присутствовать!")
     private Integer itemId;
 
@@ -22,7 +22,7 @@ public class BookingDtoForCreateBooking {
     @Future(message = "Дата окончания бронирования не может быть прошедшим днем!")
     private LocalDateTime end;
 
-    public BookingDtoForCreateBooking(Integer itemIdArg, LocalDateTime startArg, LocalDateTime endArg) {
+    public BookingCreateRequestDto(Integer itemIdArg, LocalDateTime startArg, LocalDateTime endArg) {
         itemId = itemIdArg;
         start = startArg;
         end = endArg;
@@ -30,6 +30,6 @@ public class BookingDtoForCreateBooking {
 
     @Override
     public String toString() {
-        return "BookingDtoForCreateBooking{" + "itemId=" + itemId + ", start=" + start + ", end=" + end + "}" + '\n';
+        return "BookingCreateRequestDto{" + "itemId=" + itemId + ", start=" + start + ", end=" + end + "}" + '\n';
     }
 }

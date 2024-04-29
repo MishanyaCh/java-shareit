@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.booking.Service.BookingService;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingDtoForCreateBooking;
+import ru.practicum.shareit.booking.dto.BookingCreateRequestDto;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,7 +35,7 @@ public class BookingController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public BookingDto createBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                    @Valid @RequestBody BookingDtoForCreateBooking bookingDto) {
+                                    @Valid @RequestBody BookingCreateRequestDto bookingDto) {
         log.info("Пришел POST /bookings запрос с заголовком 'X-Sharer-User-Id' и телом: " +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}" + '\n' + "Тело: {}", userId, bookingDto);
         final BookingDto createdBooking = bookingService.createNewBooking(userId, bookingDto);

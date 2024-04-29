@@ -40,7 +40,7 @@ public class BookingMapperImpl implements BookingMapper {
     }
 
     @Override
-    public Booking toBooking(BookingDtoForCreateBooking bookingDto) {
+    public Booking toBooking(BookingCreateRequestDto bookingDto) {
         int itemId = bookingDto.getItemId();
         LocalDateTime startBookingDate = bookingDto.getStart();
         LocalDateTime endBookingDate = bookingDto.getEnd();

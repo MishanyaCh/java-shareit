@@ -5,7 +5,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import java.util.List;
 
 public interface BookingMapper {
-    Booking toBooking(BookingDtoForCreateBooking bookingDto);
+    Booking toBooking(BookingCreateRequestDto bookingDto);
 
     BookingDto toBookingDto(Booking booking);
 
