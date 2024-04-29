@@ -55,7 +55,7 @@ public class ItemController {
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", userId);
         checkHeaderExistence(userId);
         final List<ItemDtoWithBookingAndComment> items = itemService.getItems(userId);
-        log.info("На GET /items запрос отправлен ответ с размером тела: {}" , items.size());
+        log.info("На GET /items запрос отправлен ответ с размером тела: {}", items.size());
         return items;
     }
 
@@ -66,7 +66,7 @@ public class ItemController {
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", itemId, userId);
         checkHeaderExistence(userId);
         final ItemDtoWithBookingAndComment item = itemService.getItem(itemId, userId);
-        log.info("На GET /items/{} запрос отправлен ответ с телом: {}" , itemId, item);
+        log.info("На GET /items/{} запрос отправлен ответ с телом: {}", itemId, item);
         return item;
     }
 
@@ -77,7 +77,7 @@ public class ItemController {
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", text, userId);
         checkHeaderExistence(userId);
         final List<ItemDto> itemsList = itemService.searchItems(userId, text);
-        log.info("На GET /items/search?text={} запрос отправлен ответ с размером тела: {}" , text, itemsList.size());
+        log.info("На GET /items/search?text={} запрос отправлен ответ с размером тела: {}", text, itemsList.size());
         return itemsList;
     }
 
