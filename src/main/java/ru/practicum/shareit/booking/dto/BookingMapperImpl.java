@@ -26,7 +26,7 @@ public class BookingMapperImpl implements BookingMapper {
     }
 
     @Override
-    public BookingDto toBookingDto(Booking booking) {
+    public BookingResponseDto toBookingDto(Booking booking) {
         int bookingId = booking.getId();
         LocalDateTime startBookingDate = booking.getStartBookingDate();
         LocalDateTime endBookingDate = booking.getEndBookingDate();
@@ -36,7 +36,7 @@ public class BookingMapperImpl implements BookingMapper {
         UserDto userDto = userMapper.toUserDto(booker);
         Item item = booking.getItem();
         ItemDto itemDto = itemMapper.toItemDto(item);
-        return new BookingDto(bookingId, startBookingDate, endBookingDate, status, userDto, itemDto);
+        return new BookingResponseDto(bookingId, startBookingDate, endBookingDate, status, userDto, itemDto);
     }
 
     @Override
@@ -50,10 +50,10 @@ public class BookingMapperImpl implements BookingMapper {
     }
 
     @Override
-    public List<BookingDto> toBookingDtoList(List<Booking> bookings) {
-        List<BookingDto> dtoList = new ArrayList<>();
+    public List<BookingResponseDto> toBookingDtoList(List<Booking> bookings) {
+        List<BookingResponseDto> dtoList = new ArrayList<>();
         for (Booking booking : bookings) {
-            BookingDto bookingDto = toBookingDto(booking);
+            BookingResponseDto bookingDto = toBookingDto(booking);
             dtoList.add(bookingDto);
         }
         return dtoList;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.booking.Service.BookingService;
-import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.dto.BookingCreateRequestDto;
 
 import javax.validation.Valid;
@@ -34,52 +34,52 @@ public class BookingController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public BookingDto createBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                    @Valid @RequestBody BookingCreateRequestDto bookingDto) {
+    public BookingResponseDto createBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+                                            @Valid @RequestBody BookingCreateRequestDto bookingDto) {
         log.info("Пришел POST /bookings запрос с заголовком 'X-Sharer-User-Id' и телом: " +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}" + '\n' + "Тело: {}", userId, bookingDto);
-        final BookingDto createdBooking = bookingService.createNewBooking(userId, bookingDto);
+        final BookingResponseDto createdBooking = bookingService.createNewBooking(userId, bookingDto);
         log.info("На POST /bookings запрос отправлен ответ с телом: {}", createdBooking);
         return createdBooking;
     }
 
     @PatchMapping(path = "/{bookingId}")
-    public BookingDto approveOrRejectBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                             @PathVariable int bookingId, @RequestParam boolean approved) {
+    public BookingResponseDto approveOrRejectBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+                                                     @PathVariable int bookingId, @RequestParam boolean approved) {
         log.info("Пришел PATCH /bookings/{}?approved={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", bookingId, approved, userId);
-        final BookingDto updatedBooking = bookingService.approveOrRejectBooking(userId, bookingId, approved);
+        final BookingResponseDto updatedBooking = bookingService.approveOrRejectBooking(userId, bookingId, approved);
         log.info("На PATCH /bookings/{}?approved={} запрос отправлен ответ с телом: {}",
                 bookingId, approved, updatedBooking);
         return updatedBooking;
     }
 
     @GetMapping(path = "/{bookingId}")
-    public BookingDto getBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                 @PathVariable int bookingId) {
+    public BookingResponseDto getBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+                                         @PathVariable int bookingId) {
         log.info("Пришел GET /bookings/{} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", bookingId, userId);
-        final BookingDto booking = bookingService.getBooking(userId, bookingId);
+        final BookingResponseDto booking = bookingService.getBooking(userId, bookingId);
         log.info("На GET /bookings/{} запрос отправлен ответ с телом: {}", bookingId, booking);
         return booking;
     }
 
     @GetMapping
-    public List<BookingDto> getBookingsForBooker(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                        @RequestParam(defaultValue = "ALL") String state) {
+    public List<BookingResponseDto> getBookingsForBooker(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+                                                         @RequestParam(defaultValue = "ALL") String state) {
         log.info("Пришел GET /bookings?state={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", state, userId);
-        final List<BookingDto> bookingsList = bookingService.getBookingsForBooker(userId, state);
+        final List<BookingResponseDto> bookingsList = bookingService.getBookingsForBooker(userId, state);
         log.info("На GET /bookings запрос отправлен ответ c размером тела: {}", bookingsList.size());
         return bookingsList;
     }
 
     @GetMapping(path = "/owner")
-    public List<BookingDto> getBookingsForOwner(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                                @RequestParam(defaultValue = "ALL") String state) {
+    public List<BookingResponseDto> getBookingsForOwner(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+                                                        @RequestParam(defaultValue = "ALL") String state) {
         log.info("Пришел GET /bookings/owner?state={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", state, userId);
-        final List<BookingDto> bookingsList = bookingService.getBookingsForItemsOwner(userId, state);
+        final List<BookingResponseDto> bookingsList = bookingService.getBookingsForItemsOwner(userId, state);
         log.info("На GET /bookings/owner запрос отправлен ответ с размером тела: {}", bookingsList.size());
         return bookingsList;
     }

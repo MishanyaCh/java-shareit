@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Storage.BookingRepository;
-import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.dto.BookingCreateRequestDto;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.enums.State;
@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto createNewBooking(int userId, BookingCreateRequestDto bookingDto) {
+    public BookingResponseDto createNewBooking(int userId, BookingCreateRequestDto bookingDto) {
         Booking newBooking = bookingMapper.toBooking(bookingDto);
         int itemId = newBooking.getItem().getId();
         Item savedItem = getItem(itemId); // находим вещь для бронирования в БД
@@ -54,7 +54,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto approveOrRejectBooking(int userId, int bookingId, boolean approved) {
+    public BookingResponseDto approveOrRejectBooking(int userId, int bookingId, boolean approved) {
         Booking savedBooking = getBooking(bookingId); // находим бронирование в БД
         Item item = savedBooking.getItem();
         int ownerId = item.getOwnerId();
@@ -84,7 +84,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto getBooking(int userId, int bookingId) {
+    public BookingResponseDto getBooking(int userId, int bookingId) {
         Booking savedBooking = getBooking(bookingId);
         int bookerId = savedBooking.getBooker().getId();
         int ownerId = savedBooking.getItem().getOwnerId();
@@ -104,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getBookingsForBooker(int userId, String state) {
+    public List<BookingResponseDto> getBookingsForBooker(int userId, String state) {
         if (!userRepository.existsById(userId)) {
             String message = String.format("Пользователь с id=%d не найден!", userId);
             throw new ObjectNotFoundException(message);
@@ -143,7 +143,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getBookingsForItemsOwner(int ownerId, String state) {
+    public List<BookingResponseDto> getBookingsForItemsOwner(int ownerId, String state) {
         if (!userRepository.existsById(ownerId)) {
             String message = String.format("Пользователь с id=%d не найден!", ownerId);
             throw new ObjectNotFoundException(message);

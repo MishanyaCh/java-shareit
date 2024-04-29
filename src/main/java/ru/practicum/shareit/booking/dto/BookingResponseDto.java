@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BookingDto {
+public class BookingResponseDto {
     private int id;
 
     @JsonProperty("start")
@@ -26,8 +26,8 @@ public class BookingDto {
     @JsonProperty("item")
     private ItemDto itemDto;
 
-    public BookingDto(int idArg, LocalDateTime startBookingDateArg, LocalDateTime endBookingDateArg,
-                      String statusArg, UserDto bookerArg, ItemDto itemArg) {
+    public BookingResponseDto(int idArg, LocalDateTime startBookingDateArg, LocalDateTime endBookingDateArg,
+                              String statusArg, UserDto bookerArg, ItemDto itemArg) {
         id = idArg;
         startBookingDate = startBookingDateArg;
         endBookingDate = endBookingDateArg;
@@ -38,7 +38,7 @@ public class BookingDto {
 
     @Override
     public String toString() {
-        String result = "BookingDto{" + "id=" + id + ", startBookingDate=" + startBookingDate +
+        String result = "BookingResponseDto{" + "id=" + id + ", startBookingDate=" + startBookingDate +
                 ", endBookingDate=" + endBookingDate + ", status='" + status + '\'';
 
         if (bookerDto != null) {
