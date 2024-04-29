@@ -36,20 +36,20 @@ public class BookingController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public BookingDto createBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
                                     @Valid @RequestBody BookingDtoForCreateBooking bookingDto) {
-        log.info('\n' + "Пришел POST /bookings запрос с заголовком 'X-Sharer-User-Id' и телом: " +
+        log.info("Пришел POST /bookings запрос с заголовком 'X-Sharer-User-Id' и телом: " +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}" + '\n' + "Тело: {}", userId, bookingDto);
         final BookingDto createdBooking = bookingService.createNewBooking(userId, bookingDto);
-        log.info('\n' + "На POST /bookings запрос отправлен ответ с телом: {}", createdBooking);
+        log.info("На POST /bookings запрос отправлен ответ с телом: {}", createdBooking);
         return createdBooking;
     }
 
     @PatchMapping(path = "/{bookingId}")
     public BookingDto approveOrRejectBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
                                              @PathVariable int bookingId, @RequestParam boolean approved) {
-        log.info('\n' + "Пришел PATCH /bookings/{}?approved={} запрос с заголовком 'X-Sharer-User-Id'" +
+        log.info("Пришел PATCH /bookings/{}?approved={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", bookingId, approved, userId);
         final BookingDto updatedBooking = bookingService.approveOrRejectBooking(userId, bookingId, approved);
-        log.info('\n' + "На PATCH /bookings/{}?approved={} запрос отправлен ответ с телом: {}",
+        log.info("На PATCH /bookings/{}?approved={} запрос отправлен ответ с телом: {}",
                 bookingId, approved, updatedBooking);
         return updatedBooking;
     }
@@ -57,30 +57,30 @@ public class BookingController {
     @GetMapping(path = "/{bookingId}")
     public BookingDto getBooking(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
                                  @PathVariable int bookingId) {
-        log.info('\n' + "Пришел GET /bookings/{} запрос с заголовком 'X-Sharer-User-Id'" +
+        log.info("Пришел GET /bookings/{} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", bookingId, userId);
         final BookingDto booking = bookingService.getBooking(userId, bookingId);
-        log.info('\n' + "На GET /bookings/{} запрос отправлен ответ с телом: {}", bookingId, booking);
+        log.info("На GET /bookings/{} запрос отправлен ответ с телом: {}", bookingId, booking);
         return booking;
     }
 
     @GetMapping
     public List<BookingDto> getBookingsForBooker(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
                                         @RequestParam(defaultValue = "ALL") String state) {
-        log.info('\n' + "Пришел GET /bookings?state={} запрос с заголовком 'X-Sharer-User-Id'" +
+        log.info("Пришел GET /bookings?state={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", state, userId);
         final List<BookingDto> bookingsList = bookingService.getBookingsForBooker(userId, state);
-        log.info('\n' + "На GET /bookings запрос отправлен ответ c размером тела: {}", bookingsList.size());
+        log.info("На GET /bookings запрос отправлен ответ c размером тела: {}", bookingsList.size());
         return bookingsList;
     }
 
     @GetMapping(path = "/owner")
     public List<BookingDto> getBookingsForOwner(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
                                                 @RequestParam(defaultValue = "ALL") String state) {
-        log.info('\n' + "Пришел GET /bookings/owner?state={} запрос с заголовком 'X-Sharer-User-Id'" +
+        log.info("Пришел GET /bookings/owner?state={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", state, userId);
         final List<BookingDto> bookingsList = bookingService.getBookingsForItemsOwner(userId, state);
-        log.info('\n' + "На GET /bookings/owner запрос отправлен ответ с размером тела: {}", bookingsList.size());
+        log.info("На GET /bookings/owner запрос отправлен ответ с размером тела: {}", bookingsList.size());
         return bookingsList;
     }
 }
