@@ -1,6 +1,5 @@
 package ru.practicum.shareit.user.dto;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 public class UserDto {
     private int id;
     private String name;
