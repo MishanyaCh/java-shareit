@@ -158,10 +158,8 @@ public class ItemServiceImpl implements ItemService {
 
         Item item = optionalItem.get(); // получаем значение содержащиеся в optionalItem
         User user = optionalUser.get(); // получаем значение содержащиеся в optionalUser
-        Comment newComment = commentMapper.toComment(commentDto);
-        newComment.setItem(item);
-        newComment.setAuthor(user);
-        newComment.setCreationDate(LocalDateTime.now());
+        Comment newComment = commentMapper.toComment(commentDto, item, user);
+
         Comment createdComment = commentRepository.save(newComment); // добавляем новую запись в таблицу comments
         return commentMapper.toCommentDto(createdComment);
     }
