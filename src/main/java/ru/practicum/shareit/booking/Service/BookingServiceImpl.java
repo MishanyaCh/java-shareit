@@ -50,7 +50,7 @@ public class BookingServiceImpl implements BookingService {
         newBooking.setStatus(Status.WAITING); // устанавливаем статус бронирования
 
         Booking createdBooking = bookingRepository.save(newBooking); // добавляем новую запись в таблицу booking
-        return bookingMapper.toBookingDto(createdBooking);
+        return bookingMapper.toBookingResponseDto(createdBooking);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class BookingServiceImpl implements BookingService {
             savedBooking.setStatus(Status.REJECTED);
         }
         Booking updatedBooking = bookingRepository.save(savedBooking);
-        return bookingMapper.toBookingDto(updatedBooking);
+        return bookingMapper.toBookingResponseDto(updatedBooking);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class BookingServiceImpl implements BookingService {
                 throw new BookingException(message);
             }
         }
-        return bookingMapper.toBookingDto(savedBooking);
+        return bookingMapper.toBookingResponseDto(savedBooking);
     }
 
     @Override

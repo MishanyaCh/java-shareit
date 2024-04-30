@@ -7,7 +7,7 @@ import java.util.List;
 public interface BookingMapper {
     Booking toBooking(BookingCreateRequestDto bookingDto);
 
-    BookingResponseDto toBookingDto(Booking booking);
+    BookingResponseDto toBookingResponseDto(Booking booking);
 
     List<BookingResponseDto> toBookingDtoList(List<Booking> bookings);
 }

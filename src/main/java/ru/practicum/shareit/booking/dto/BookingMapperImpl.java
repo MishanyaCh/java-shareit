@@ -26,7 +26,7 @@ public class BookingMapperImpl implements BookingMapper {
     }
 
     @Override
-    public BookingResponseDto toBookingDto(Booking booking) {
+    public BookingResponseDto toBookingResponseDto(Booking booking) {
         int bookingId = booking.getId();
         LocalDateTime startBookingDate = booking.getStartBookingDate();
         LocalDateTime endBookingDate = booking.getEndBookingDate();
@@ -53,7 +53,7 @@ public class BookingMapperImpl implements BookingMapper {
     public List<BookingResponseDto> toBookingDtoList(List<Booking> bookings) {
         List<BookingResponseDto> dtoList = new ArrayList<>();
         for (Booking booking : bookings) {
-            BookingResponseDto bookingDto = toBookingDto(booking);
+            BookingResponseDto bookingDto = toBookingResponseDto(booking);
             dtoList.add(bookingDto);
         }
         return dtoList;
