@@ -2,7 +2,11 @@ package ru.practicum.shareit.booking.dto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.practicum.shareit.booking.enums.Status;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.exception.BookingException;
+import ru.practicum.shareit.exception.DateTimeBookingException;
+import ru.practicum.shareit.exception.ObjectNotAvailableException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -40,13 +44,13 @@ public class BookingMapperImpl implements BookingMapper {
     }
 
     @Override
-    public Booking toBooking(BookingCreateRequestDto bookingDto) {
-        int itemId = bookingDto.getItemId();
+    public Booking toBooking(BookingCreateRequestDto bookingDto, Item item, User user) {
         LocalDateTime startBookingDate = bookingDto.getStart();
         LocalDateTime endBookingDate = bookingDto.getEnd();
+        Status status = Status.WAITING; // устанавливаем статус бронирования
 
-        Item item = new Item(itemId, null, null, null, 0);
-        return new Booking(0, item, null, startBookingDate, endBookingDate, null);
+        validateBookingData(bookingDto, item, user);
+        return new Booking(0, item, user, startBookingDate, endBookingDate, status);
     }
 
     @Override
@@ -57,5 +61,29 @@ public class BookingMapperImpl implements BookingMapper {
             dtoList.add(bookingDto);
         }
         return dtoList;
+    }
+
+    private void validateBookingData(BookingCreateRequestDto bookingDto, Item item, User user) {
+        LocalDateTime startDate = bookingDto.getStart();
+        LocalDateTime endDate = bookingDto.getEnd();
+        boolean isAvailable = item.getIsAvailable();
+        int ownerId = item.getOwnerId();
+
+        if (endDate.isBefore(startDate)) {
+            String message = "Дата окончания бронирования не может быть раньше даты начала бронирования!";
+            throw new DateTimeBookingException(message);
+        }
+        if (endDate.isEqual(startDate)) {
+            String message = "Даты начала и окончания бронирования не могут совпадать!";
+            throw new DateTimeBookingException(message);
+        }
+        if (!isAvailable) {
+            String message = String.format("Вещь с id=%d не доступна для бронирования!", item.getId());
+            throw new ObjectNotAvailableException(message);
+        }
+        if (user.getId() == ownerId) {
+            String message = "Владелец вещи не может бронировать вещь у самого себя!";
+            throw new BookingException(message);
+        }
     }
 }
