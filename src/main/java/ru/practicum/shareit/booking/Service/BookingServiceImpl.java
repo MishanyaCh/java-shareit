@@ -39,15 +39,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponseDto createNewBooking(int userId, BookingCreateRequestDto bookingDto) {
-        Booking newBooking = bookingMapper.toBooking(bookingDto);
-        int itemId = newBooking.getItem().getId();
+        int itemId = bookingDto.getItemId();
         Item savedItem = getItem(itemId); // находим вещь для бронирования в БД
         User savedUser = getUser(userId); // находим бронирующего вещь пользователя в БД
-
-        validateBookingData(newBooking, savedItem, savedUser);
-        newBooking.setItem(savedItem); // добавляем данные о бронируемой вещи
-        newBooking.setBooker(savedUser); // добавляем данные о бронирующем пользователе
-        newBooking.setStatus(Status.WAITING); // устанавливаем статус бронирования
+        Booking newBooking = bookingMapper.toBooking(bookingDto, savedItem, savedUser);
 
         Booking createdBooking = bookingRepository.save(newBooking); // добавляем новую запись в таблицу booking
         return bookingMapper.toBookingResponseDto(createdBooking);
@@ -209,29 +204,5 @@ public class BookingServiceImpl implements BookingService {
             throw new ObjectNotFoundException(message);
         }
         return optionalBooking.get();
-    }
-
-    private void validateBookingData(Booking booking, Item item, User user) {
-        LocalDateTime startDate = booking.getStartBookingDate();
-        LocalDateTime endDate = booking.getEndBookingDate();
-        boolean isAvailable = item.getIsAvailable();
-        int ownerId = item.getOwnerId();
-
-        if (endDate.isBefore(startDate)) {
-            String message = "Дата окончания бронирования не может быть раньше даты начала бронирования!";
-            throw new DateTimeBookingException(message);
-        }
-        if (endDate.isEqual(startDate)) {
-            String message = "Даты начала и окончания бронирования не могут совпадать!";
-            throw new DateTimeBookingException(message);
-        }
-        if (!isAvailable) {
-            String message = String.format("Вещь с id=%d не доступна для бронирования!", item.getId());
-            throw new ObjectNotAvailableException(message);
-        }
-        if (user.getId() == ownerId) {
-            String message = "Владелец вещи не может бронировать вещь у самого себя!";
-            throw new BookingException(message);
-        }
     }
 }
