@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking.Storage;
+package ru.practicum.shareit.booking.storage;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
