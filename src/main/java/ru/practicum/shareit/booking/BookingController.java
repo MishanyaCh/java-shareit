@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,12 @@ import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.dto.BookingCreateRequestDto;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping(path = "/bookings")
 public class BookingController {
@@ -65,21 +70,27 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingResponseDto> getBookingsForBooker(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                                         @RequestParam(defaultValue = "ALL") String state) {
-        log.info("Пришел GET /bookings?state={} запрос с заголовком 'X-Sharer-User-Id'" +
-                '\n' + "Содержимое 'X-Sharer-User-Id': {}", state, userId);
-        final List<BookingResponseDto> bookingsList = bookingService.getBookingsForBooker(userId, state);
+    public List<BookingResponseDto> getBookingsForBooker(
+            @RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+            @RequestParam(required = false, defaultValue = "ALL") String state,
+            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(required = false, defaultValue = "10") @Min(1) @Max(25) Integer size) {
+        log.info("Пришел GET /bookings?state={}&from={}&size={} запрос с заголовком 'X-Sharer-User-Id'. " +
+                '\n' + "Содержимое заголовка 'X-Sharer-User-Id': {}", state, from, size, userId);
+        final List<BookingResponseDto> bookingsList = bookingService.getBookingsForBooker(userId, state, from, size);
         log.info("На GET /bookings запрос отправлен ответ c размером тела: {}", bookingsList.size());
         return bookingsList;
     }
 
     @GetMapping(path = "/owner")
-    public List<BookingResponseDto> getBookingsForOwner(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-                                                        @RequestParam(defaultValue = "ALL") String state) {
-        log.info("Пришел GET /bookings/owner?state={} запрос с заголовком 'X-Sharer-User-Id'" +
-                '\n' + "Содержимое 'X-Sharer-User-Id': {}", state, userId);
-        final List<BookingResponseDto> bookingsList = bookingService.getBookingsForItemsOwner(userId, state);
+    public List<BookingResponseDto> getBookingsForOwner(
+            @RequestHeader(value = "X-Sharer-User-Id") Integer userId,
+            @RequestParam(defaultValue = "ALL") String state,
+            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(required = false, defaultValue = "10") @Min(1) @Max(25) Integer size) {
+        log.info("Пришел GET /bookings/owner?state={}&from={}&size={} запрос с заголовком 'X-Sharer-User-Id'" +
+                '\n' + "Содержимое заголовка 'X-Sharer-User-Id': {}", state, from, size, userId);
+        final List<BookingResponseDto> bookingsList = bookingService.getBookingsForItemsOwner(userId, state, from, size);
         log.info("На GET /bookings/owner запрос отправлен ответ с размером тела: {}", bookingsList.size());
         return bookingsList;
     }
