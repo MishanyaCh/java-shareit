@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking.Service;
+package ru.practicum.shareit.booking.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
