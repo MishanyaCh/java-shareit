@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
 import ru.practicum.shareit.exception.EmailValidationException;
-import ru.practicum.shareit.user.Storage.UserRepository;
+import ru.practicum.shareit.user.storage.UserRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.dto.UserMapper;
 import ru.practicum.shareit.user.dto.UserDto;

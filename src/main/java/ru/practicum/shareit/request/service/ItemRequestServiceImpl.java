@@ -11,7 +11,7 @@ import ru.practicum.shareit.request.dto.ItemRequestDtoWithAnswers;
 import ru.practicum.shareit.request.dto.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.storage.ItemRequestRepository;
-import ru.practicum.shareit.user.Storage.UserRepository;
+import ru.practicum.shareit.user.storage.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
