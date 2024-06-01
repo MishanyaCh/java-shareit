@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BookingResponseDto {
-    private int id;
+    private Integer id;
 
     @JsonProperty("start")
     private LocalDateTime startBookingDate;
@@ -26,7 +26,7 @@ public class BookingResponseDto {
     @JsonProperty("item")
     private ItemDto itemDto;
 
-    public BookingResponseDto(int idArg, LocalDateTime startBookingDateArg, LocalDateTime endBookingDateArg,
+    public BookingResponseDto(Integer idArg, LocalDateTime startBookingDateArg, LocalDateTime endBookingDateArg,
                               String statusArg, UserDto bookerArg, ItemDto itemArg) {
         id = idArg;
         startBookingDate = startBookingDateArg;
