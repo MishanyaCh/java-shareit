@@ -29,7 +29,7 @@ public class ItemRequest {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "requester_id")
-    private User requester; // пользователь, создавший запрос
+    private User requester; // пользователь, создавший запрос на добавление желаемой вещи
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
