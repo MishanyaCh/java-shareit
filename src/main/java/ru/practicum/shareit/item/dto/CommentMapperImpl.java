@@ -22,7 +22,7 @@ public class CommentMapperImpl implements CommentMapper {
 
     @Override
     public Comment toComment(CommentDto commentDto, Item item, User author) {
-        return new Comment(commentDto.getId(), commentDto.getText(), LocalDateTime.now(), item, author);
+        return new Comment(0, commentDto.getText(), LocalDateTime.now(), item, author);
     }
 
     @Override
