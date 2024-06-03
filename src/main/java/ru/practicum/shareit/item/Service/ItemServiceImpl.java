@@ -1,9 +1,11 @@
 package ru.practicum.shareit.item.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.Storage.BookingRepository;
+import ru.practicum.shareit.booking.storage.BookingRepository;
 import ru.practicum.shareit.booking.enums.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.NotItemOwnerException;
@@ -18,7 +20,7 @@ import ru.practicum.shareit.item.dto.ItemDtoWithBookingAndComment;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.Storage.UserRepository;
+import ru.practicum.shareit.user.storage.UserRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.util.FutureBookingComparator;
 import ru.practicum.shareit.util.PastBookingComparator;
@@ -27,6 +29,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static ru.practicum.shareit.util.Page.getPage;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -76,11 +80,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDtoWithBookingAndComment> getItems(int userId) { // метод для просмотра списка всех вещей владельца
+    public List<ItemDtoWithBookingAndComment> getItems(int userId, int from, int size) { // метод для просмотра списка всех вещей владельца
         List<ItemDtoWithBookingAndComment> result = new ArrayList<>();
         List<Item> items = itemRepository.findItemsByOwnerId(userId); // получаем список всех вещей владельца
         // получаем список всех бронирований для всех вещей владельца
-        List<Booking> bookings = bookingRepository.findBookingsByItemOwner(userId);
+        Pageable pageable = getPage(from, size);
+        List<Booking> bookings = bookingRepository.findBookingsByItemOwnerId(userId, pageable); // пагинация
         // получаем список всех комментариев для всех вещей владельца
         List<Comment> comments = commentRepository.findCommentsByItemOwner(userId);
 
@@ -132,13 +137,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> searchItems(int userId, String text) {
+    public List<ItemDto> searchItems(int userId, String text, int from, int size) {
         checkUserExistence(userId);// проверяем наличие пользователя в БД
         if (text.isBlank()) {
             return new ArrayList<>();
         }
         String editText = text.toLowerCase();// приводим текст к нижнему регистру
-        List<Item> items = itemRepository.searchItems(editText);
+        Pageable pageable = getPage(from, size);
+        List<Item> items = itemRepository.searchItems(editText, pageable); // пагинация
         return itemMapper.toItemDtoList(items);
     }
 

@@ -11,11 +11,11 @@ public interface ItemService {
 
     ItemDto updateItem(int userId, int itemId, ItemDto itemDto);
 
-    List<ItemDtoWithBookingAndComment> getItems(int userId);
+    List<ItemDtoWithBookingAndComment> getItems(int userId, int from, int size);
 
     ItemDtoWithBookingAndComment getItem(int itemId, int userId);
 
-    List<ItemDto> searchItems(int userId, String text);
+    List<ItemDto> searchItems(int userId, String text, int from, int size);
 
     CommentDto createComment(int bookerId, int itemId, CommentDto commentDto);
 }
