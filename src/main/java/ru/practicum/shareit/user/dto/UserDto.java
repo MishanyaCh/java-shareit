@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UserDto {
-    private int id;
+    private Integer id;
     private String name;
 
     @NotNull
     @Email
     private String email;
 
-    public UserDto(int idArg, String nameArg, String emailArg) {
+    public UserDto(Integer idArg, String nameArg, String emailArg) {
         id = idArg;
         name = nameArg;
         email = emailArg;
