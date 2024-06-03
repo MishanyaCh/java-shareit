@@ -16,8 +16,9 @@ public class ItemDtoWithBookingAndComment extends ItemDto {
     public ItemDtoWithBookingAndComment(int idArg, String nameArg, String descriptionArg, Boolean isAvailableArg,
                                         BookingDtoWithoutItemField lastBookingArg,
                                         BookingDtoWithoutItemField nextBookingArg,
-                                        List<CommentDto> commentsArg) {
-        super(idArg, nameArg, descriptionArg, isAvailableArg);
+                                        List<CommentDto> commentsArg,
+                                        Integer requestIdArg) {
+        super(idArg, nameArg, descriptionArg, isAvailableArg, requestIdArg);
         lastBooking = lastBookingArg;
         nextBooking = nextBookingArg;
         comments = commentsArg;
