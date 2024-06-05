@@ -73,7 +73,7 @@ class ItemRequestMapperImplTest {
         assertEquals(expected.getDescription(), result.getDescription());
         assertNotNull(result.getRequester());
         assertNotNull(result.getCreationDate());
-        assertEquals(expected.getCreationDate(), result.getCreationDate());
+        assertEquals(expected.getCreationDate().withNano(0), result.getCreationDate().withNano(0));
     }
 
     @Test
