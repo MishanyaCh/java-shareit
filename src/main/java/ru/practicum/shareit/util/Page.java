@@ -6,10 +6,10 @@ import org.springframework.data.domain.Sort;
 
 public final class Page {
     public static Pageable getSortedPage(int page, int size, Sort sort) {
-        return PageRequest.of(page/size, size, sort);
+        return PageRequest.of(page / size, size, sort);
     }
 
     public static Pageable getPage(int page, int size) {
-        return PageRequest.of(page/size, size);
+        return PageRequest.of(page / size, size);
     }
 }
