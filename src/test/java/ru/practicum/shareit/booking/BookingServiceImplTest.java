@@ -515,6 +515,7 @@ class BookingServiceImplTest {
         Mockito.verify(bookingRepository, never()).findBookingsByBookerIdAndStatus(userId, Status.WAITING, pageable);
         Mockito.verify(bookingMapper, never()).toBookingDtoList(anyList());
     }
+    
     @Test
     void getBookingsForItemsOwner_whenItemOwnerFoundAndStateIsAll_thenReturnedAnswer() {
         int ownerId = 2;
