@@ -163,8 +163,8 @@ public class BookingServiceImpl implements BookingService {
                 break;
             case CURRENT:
                 bookings = bookingRepository
-                        .findBookingsByItemOwnerIdAndStartBookingDateAndEndBookingDate(ownerId, LocalDateTime.now(),
-                                LocalDateTime.now(), pageable);
+                        .findBookingsByItemOwnerIdAndStartBookingDateBeforeAndEndBookingDateAfter(
+                                ownerId, LocalDateTime.now(), LocalDateTime.now(), pageable);
                 break;
             case FUTURE:
                 bookings = bookingRepository
