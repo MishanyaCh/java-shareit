@@ -22,7 +22,7 @@ import ru.practicum.shareit.exception.BookingIsApprovedException;
 import ru.practicum.shareit.exception.NotItemOwnerException;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
 import ru.practicum.shareit.exception.UnknownStateException;
-import ru.practicum.shareit.item.Storage.ItemRepository;
+import ru.practicum.shareit.item.storage.ItemRepository;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.storage.UserRepository;
