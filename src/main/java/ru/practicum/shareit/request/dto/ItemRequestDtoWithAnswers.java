@@ -12,8 +12,8 @@ import java.util.List;
 public class ItemRequestDtoWithAnswers extends ItemRequestDto {
     private List<ItemDto> items;
 
-    public ItemRequestDtoWithAnswers(Integer idArg, String descriptionArg, LocalDateTime createdArg, 
-                                     List<ItemDto> itemsArg) {
+    public ItemRequestDtoWithAnswers(
+            Integer idArg, String descriptionArg, LocalDateTime createdArg, List<ItemDto> itemsArg) {
         super(idArg, descriptionArg, createdArg);
         items = itemsArg;
     }
