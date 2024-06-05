@@ -39,7 +39,8 @@ public class ItemDtoWithBookingAndComment extends ItemDto {
             result = result + ", " + nextBooking;
         } else {
             result = result + ", nextBooking = 'null'";
-        } if (comments != null) {
+        }
+        if (comments != null) {
             result = result + ", " + comments;
         } else {
             result = result + ", comments = 'null'";
