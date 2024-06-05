@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.exception.NotItemOwnerException;
 import ru.practicum.shareit.exception.ObjectNotAvailableException;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
-import ru.practicum.shareit.item.Service.ItemService;
+import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBookingAndComment;

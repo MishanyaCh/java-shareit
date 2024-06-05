@@ -17,7 +17,7 @@ import ru.practicum.shareit.booking.storage.BookingRepository;
 import ru.practicum.shareit.exception.NotItemOwnerException;
 import ru.practicum.shareit.exception.ObjectNotAvailableException;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
-import ru.practicum.shareit.item.Service.ItemServiceImpl;
+import ru.practicum.shareit.item.service.ItemServiceImpl;
 import ru.practicum.shareit.item.Storage.CommentRepository;
 import ru.practicum.shareit.item.Storage.ItemRepository;
 import ru.practicum.shareit.item.dto.CommentDto;
