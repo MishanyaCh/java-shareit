@@ -126,7 +126,7 @@ class UserControllerTest {
     @SneakyThrows
     void getUsers_whenInvoke_thenStatusOkAndHasBodyResponse() {
         List<UserDto> userDtoList = List.of(userResponseDto);
-        String expectedDto = objectMapper.writeValueAsString(userDtoList );
+        String expectedDto = objectMapper.writeValueAsString(userDtoList);
         Mockito.when(userService.getUsers()).thenReturn(userDtoList);
 
         String result = mockMvc.perform(get("/users"))

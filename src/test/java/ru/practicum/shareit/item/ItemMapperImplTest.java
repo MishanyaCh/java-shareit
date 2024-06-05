@@ -59,7 +59,7 @@ class ItemMapperImplTest {
         lastBooking = new Booking(1, item, new User(), LocalDateTime.MIN, LocalDateTime.MAX, Status.APPROVED);
         last = new BookingDtoWithoutItemField(1, 3, LocalDateTime.MIN, LocalDateTime.MAX);
         nextBooking = new Booking(2, item, new User(), LocalDateTime.MIN, LocalDateTime.MAX, Status.WAITING);
-        next = new BookingDtoWithoutItemField(2, 4, LocalDateTime.MIN, LocalDateTime.MAX );
+        next = new BookingDtoWithoutItemField(2, 4, LocalDateTime.MIN, LocalDateTime.MAX);
         commentDto = new CommentDto(1, "Отличный нивелир!!", "User",
                 LocalDateTime.now().withNano(0));
 
