@@ -26,20 +26,24 @@ public class ItemDtoWithBookingAndComment extends ItemDto {
 
     @Override
     public String toString() {
-        String result = "ItemDtoWithBooking{" + "id=" + getId() + ", name='" + getName() + '\'' +
-                ", description='" + getDescription() + '\'' + ", isAvailable=" + getIsAvailable();
+        String result = "ItemDtoWithBookingAndComment{" + "id=" + getId() + ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' + ", isAvailable=" + getIsAvailable() +
+                ", requestId=" + getRequestId();
 
         if (lastBooking != null) {
-            result = result + ", " + lastBooking.toString();
+            result = result + ", " + lastBooking;
         } else {
             result = result + ", lastBooking = 'null'";
         }
         if (nextBooking != null) {
-            result = result + ", " + nextBooking.toString();
+            result = result + ", " + nextBooking;
         } else {
             result = result + ", nextBooking = 'null'";
+        } if (comments != null) {
+            result = result + ", " + comments;
+        } else {
+            result = result + ", comments = 'null'";
         }
-
         return result + "}" + '\n';
     }
 }
