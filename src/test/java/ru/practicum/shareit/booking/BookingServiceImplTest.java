@@ -517,6 +517,41 @@ class BookingServiceImplTest {
     }
 
     @Test
+    void getBookingsForItemsOwner_whenItemOwnerFoundAndStateIsAll_thenReturnedAnswer() {
+        int ownerId = 2;
+        String state = "ALL";
+        int from = 0;
+        int size = 10;
+        Sort sort = Sort.by(Sort.Direction.DESC, "startBookingDate");
+        Pageable pageable = getSortedPage(from, size, sort);
+        Item item = new Item(1, "Лазерный нивелир", "Лазерный нивелир EX600-Pro",
+                true, 2);
+        Booking booking = new Booking();
+        BookingResponseDto expectedResponseDto = new BookingResponseDto(1, LocalDateTime.now(),
+                LocalDateTime.now().plusDays(2), "WAITING", null, null);
+
+        Mockito.when(userRepository.existsById(ownerId)).thenReturn(true);
+        Mockito.when(itemRepository.findItemsByOwnerId(ownerId)).thenReturn(List.of(item));
+        Mockito.when(bookingRepository.findBookingsByItemOwnerId(ownerId, pageable)).thenReturn(List.of(booking));
+        Mockito.when(bookingMapper.toBookingDtoList(List.of(booking))).thenReturn(List.of(expectedResponseDto));
+
+        bookingService.getBookingsForItemsOwner(ownerId, state, from, size);
+
+        Mockito.verify(userRepository).existsById(ownerId);
+        Mockito.verify(itemRepository).findItemsByOwnerId(ownerId);
+        Mockito.verify(bookingRepository).findBookingsByItemOwnerId(ownerId, pageable);
+        Mockito.verify(bookingRepository, never())
+                .findBookingsByItemOwnerIdAndStartBookingDateBeforeAndEndBookingDateAfter(ownerId, null, null, pageable);
+        Mockito.verify(bookingRepository, never())
+                .findBookingsByItemOwnerIdAndStartBookingDateAfter(ownerId, null, pageable);
+        Mockito.verify(bookingRepository, never())
+                .findBookingsByItemOwnerIdAndEndBookingDateBefore(ownerId, null, pageable);
+        Mockito.verify(bookingRepository, never()).findBookingsByItemOwnerIdAndStatus(ownerId, Status.REJECTED, pageable);
+        Mockito.verify(bookingRepository, never()).findBookingsByItemOwnerIdAndStatus(ownerId, Status.WAITING, pageable);
+        Mockito.verify(bookingMapper).toBookingDtoList(List.of(booking));
+    }
+
+    @Test
     void getBookingsForItemsOwner_whenItemOwnerFoundAndStateIsRejected_thenReturnedAnswer() {
         int ownerId = 2;
         String state = "REJECTED";
