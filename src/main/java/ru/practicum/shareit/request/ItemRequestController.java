@@ -39,11 +39,10 @@ public class ItemRequestController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ItemRequestDto createItemRequest(@RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId,
+    public ItemRequestDto createItemRequest(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
                                             @Valid @RequestBody ItemRequestDto itemRequestDto) {
         log.info("Пришел POST /requests запрос с заголовком 'X-Sharer-User-Id' и телом: " + '\n' +
                 "Содержимое заголовка 'X-Sharer-User-Id': {}" + '\n' + "Содержимое тела: {}", userId, itemRequestDto);
-        checkHeaderExistence(userId);
         final ItemRequestDto createdItemRequest = itemRequestService.createItemRequest(userId, itemRequestDto);
         log.info("На POST /requests запрос отправлен ответ с телом: {}", createdItemRequest);
         return createdItemRequest;
@@ -51,10 +50,9 @@ public class ItemRequestController {
 
     @GetMapping
     public List<ItemRequestDtoWithAnswers> getRequestsWithAnswersForRequester(
-            @RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId) {
+            @RequestHeader(value = "X-Sharer-User-Id") Integer userId) {
         log.info("Пришел GET /requests запрос с заголовком 'X-Sharer-User-Id'. " + '\n' +
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", userId);
-        checkHeaderExistence(userId);
         final List<ItemRequestDtoWithAnswers> result = itemRequestService.getRequestsWithItemsForRequester(userId);
         log.info("На GET /requests запрос отправлен ответ с размером тела: {}", result.size());
         return result;
@@ -62,12 +60,11 @@ public class ItemRequestController {
 
     @GetMapping(path = "/all")
     public List<ItemRequestDtoWithAnswers> getOtherRequestsWithAnswers(
-            @RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId,
+            @RequestHeader(value = "X-Sharer-User-Id") Integer userId,
             @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(required = false, defaultValue = "10") @Min(1) @Max(25) Integer size) {
         log.info("Пришел GET /requests/all&from={}&size={} запрос c заголовком 'X-Sharer-User-Id'. " +
                 '\n' + "Содержимое заголовка 'X-Sharer-User-Id': {}", from, size, userId);
-        checkHeaderExistence(userId);
         final List<ItemRequestDtoWithAnswers> result = itemRequestService.getOtherRequestsWithItems(userId, from, size);
         log.info("На GET /requests/all&from={}&size={} запрос отправлен ответ с размером тела: {}",
                 from, size, result.size());
@@ -76,20 +73,12 @@ public class ItemRequestController {
 
     @GetMapping(path = "/{requestId}")
     public ItemRequestDtoWithAnswers getItemRequest(@PathVariable int requestId,
-            @RequestHeader(value = "X-Sharer-User-Id", required = false) Integer userId) {
+            @RequestHeader(value = "X-Sharer-User-Id") Integer userId) {
         log.info("Пришел GET /requests/{} запрос с заголовком 'X-Sharer-User-Id'. " + '\n' +
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", requestId, userId);
-        checkHeaderExistence(userId);
         final ItemRequestDtoWithAnswers requestWithAnswers = itemRequestService.getRequest(userId, requestId);
         log.info("На GET /requests/{} запрос отправлен ответ с телом: {}", requestId, requestWithAnswers);
         return requestWithAnswers;
     }
-
-    private void checkHeaderExistence(Integer userId) {
-        if (userId == null) {
-            String message = "В запросе отсутствует ожидаемый заголовок 'X-Sharer-User-Id'! " +
-                    "Невозможно выполнить текущий запрос";
-            throw new HeaderNonexistentException(message);
-        }
     }
 }
