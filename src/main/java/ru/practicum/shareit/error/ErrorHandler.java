@@ -43,13 +43,6 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleHeaderNonexistentException(final HeaderNonexistentException exc) {
-        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
-        return Map.of("Error", exc.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse handleObjectNotAvailableException(final ObjectNotAvailableException exc) {
         log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return new ErrorResponse(exc.getMessage());
