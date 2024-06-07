@@ -2,12 +2,16 @@ package ru.practicum.shareit.item.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.shareit.request.model.ItemRequest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -31,6 +35,10 @@ public class Item {
 
     @Column(name = "owner_id")
     private int ownerId; // владелец вещи
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_id")
+    private ItemRequest request; // если вещь добавляется по запросу, то переменная request != null
 
     public Item() { // конструктор без параметров для работы hibernate
     }

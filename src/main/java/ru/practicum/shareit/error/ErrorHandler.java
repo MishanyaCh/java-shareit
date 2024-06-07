@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.shareit.booking.BookingController;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.ItemController;
+import ru.practicum.shareit.request.ItemRequestController;
 import ru.practicum.shareit.user.UserController;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Map;
 
-@RestControllerAdvice(assignableTypes = {ItemController.class, UserController.class, BookingController.class})
+@RestControllerAdvice(assignableTypes = {ItemController.class, UserController.class, BookingController.class,
+        ItemRequestController.class})
 public class ErrorHandler {
     private static final Logger log = LoggerFactory.getLogger(ErrorHandler.class);
 
@@ -34,13 +37,6 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public Map<String, String> handleNotItemOwnerException(final NotItemOwnerException exc) {
-        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
-        return Map.of("Error", exc.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleHeaderNonexistentException(final HeaderNonexistentException exc) {
         log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return Map.of("Error", exc.getMessage());
     }
@@ -76,6 +72,13 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBookingIsApprovedException(final BookingIsApprovedException exc) {
+        log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
+        return new ErrorResponse(exc.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleConstraintViolationException(final ConstraintViolationException exc) {
         log.error('\n' + "Отловлена ошибка: " + exc.getMessage() + '\n');
         return new ErrorResponse(exc.getMessage());
     }

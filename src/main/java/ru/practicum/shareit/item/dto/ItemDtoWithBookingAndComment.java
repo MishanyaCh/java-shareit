@@ -16,8 +16,9 @@ public class ItemDtoWithBookingAndComment extends ItemDto {
     public ItemDtoWithBookingAndComment(int idArg, String nameArg, String descriptionArg, Boolean isAvailableArg,
                                         BookingDtoWithoutItemField lastBookingArg,
                                         BookingDtoWithoutItemField nextBookingArg,
-                                        List<CommentDto> commentsArg) {
-        super(idArg, nameArg, descriptionArg, isAvailableArg);
+                                        List<CommentDto> commentsArg,
+                                        Integer requestIdArg) {
+        super(idArg, nameArg, descriptionArg, isAvailableArg, requestIdArg);
         lastBooking = lastBookingArg;
         nextBooking = nextBookingArg;
         comments = commentsArg;
@@ -25,20 +26,25 @@ public class ItemDtoWithBookingAndComment extends ItemDto {
 
     @Override
     public String toString() {
-        String result = "ItemDtoWithBooking{" + "id=" + getId() + ", name='" + getName() + '\'' +
-                ", description='" + getDescription() + '\'' + ", isAvailable=" + getIsAvailable();
+        String result = "ItemDtoWithBookingAndComment{" + "id=" + getId() + ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' + ", isAvailable=" + getIsAvailable() +
+                ", requestId=" + getRequestId();
 
         if (lastBooking != null) {
-            result = result + ", " + lastBooking.toString();
+            result = result + ", " + lastBooking;
         } else {
             result = result + ", lastBooking = 'null'";
         }
         if (nextBooking != null) {
-            result = result + ", " + nextBooking.toString();
+            result = result + ", " + nextBooking;
         } else {
             result = result + ", nextBooking = 'null'";
         }
-
+        if (comments != null) {
+            result = result + ", " + comments;
+        } else {
+            result = result + ", comments = 'null'";
+        }
         return result + "}" + '\n';
     }
 }

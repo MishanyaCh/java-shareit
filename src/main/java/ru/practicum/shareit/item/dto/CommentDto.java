@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CommentDto {
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "Комментарий должен содержать хотя бы один непробельный символ!")
     private String text;
     private String authorName;
     private LocalDateTime created;
 
-    public CommentDto(int idArg, String textArg, String authorNameArg, LocalDateTime createdArg) {
+    public CommentDto(Integer idArg, String textArg, String authorNameArg, LocalDateTime createdArg) {
         id = idArg;
         text = textArg;
         authorName = authorNameArg;
