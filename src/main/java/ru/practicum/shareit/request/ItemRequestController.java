@@ -80,5 +80,4 @@ public class ItemRequestController {
         log.info("На GET /requests/{} запрос отправлен ответ с телом: {}", requestId, requestWithAnswers);
         return requestWithAnswers;
     }
-    }
 }
