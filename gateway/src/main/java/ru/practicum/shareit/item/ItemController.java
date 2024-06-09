@@ -20,8 +20,8 @@ import javax.validation.constraints.PositiveOrZero;
 @RequestMapping(path = "/items")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemClient itemClient;
     private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+    private final ItemClient itemClient;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)

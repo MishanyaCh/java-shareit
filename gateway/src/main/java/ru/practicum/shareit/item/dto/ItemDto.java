@@ -39,6 +39,6 @@ public class ItemDto {
     @Override
     public String toString() {
         return "ItemDto{" + "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' +
-                ", isAvailable=" + isAvailable +  ", requestId=" + requestId + "}" + '\n';
+                ", isAvailable=" + isAvailable + ", requestId=" + requestId + "}" + '\n';
     }
 }

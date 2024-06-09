@@ -18,18 +18,18 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     List<Item> findItemsByRequestId(int requestId);
 
     @Query(value = "SELECT item.id, item.name, item.description, item.is_available, item.owner_id, item.request_id, " +
-                          "item_req.id, " +
-                          "item_req.description, " +
-                          "item_req.creation_date " +
+            "item_req.id, " +
+            "item_req.description, " +
+            "item_req.creation_date " +
             "FROM (SELECT * FROM item_requests WHERE requester_id = :userId) AS item_req " +
             "INNER JOIN items AS item ON item_req.id = item.request_id " +
             "WHERE item.id IS NOT NULL", nativeQuery = true)
     List<Item> findItemsByRequesterId(int userId);
 
     @Query(value = "SELECT item.id, item.name, item.description, item.is_available, item.owner_id, item.request_id, " +
-                          "item_req.id, " +
-                          "item_req.description, " +
-                          "item_req.creation_date " +
+            "item_req.id, " +
+            "item_req.description, " +
+            "item_req.creation_date " +
             "FROM (SELECT * FROM item_requests WHERE requester_id IN :requestIds) AS item_req " +
             "INNER JOIN items AS item ON item_req.id = item.request_id " +
             "WHERE item.id IS NOT NULL", nativeQuery = true)

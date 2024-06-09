@@ -24,6 +24,6 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email +  '\'' + "}" + '\n';
+        return "UserDto{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + "}" + '\n';
     }
 }

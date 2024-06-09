@@ -15,9 +15,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserClient userClient;
-
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final UserClient userClient;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)

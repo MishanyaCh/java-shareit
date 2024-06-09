@@ -36,7 +36,7 @@ public class BookingController {
 
     @PatchMapping(path = "/{bookingId}")
     public ResponseEntity<Object> approveOrRejectBooking(@RequestHeader(value = "X-Sharer-User-Id") Long userId,
-                                                     @PathVariable Long bookingId, @RequestParam Boolean approved) {
+                                                         @PathVariable Long bookingId, @RequestParam Boolean approved) {
         log.info("Пришел PATCH /bookings/{}?approved={} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", bookingId, approved, userId);
         ResponseEntity<Object> response = bookingClient.approveOrRejectBooking(userId, bookingId, approved);
@@ -47,7 +47,7 @@ public class BookingController {
 
     @GetMapping(path = "/{bookingId}")
     public ResponseEntity<Object> getBooking(@RequestHeader(value = "X-Sharer-User-Id") Long userId,
-                                         @PathVariable Long bookingId) {
+                                             @PathVariable Long bookingId) {
         log.info("Пришел GET /bookings/{} запрос с заголовком 'X-Sharer-User-Id'" +
                 '\n' + "Содержимое 'X-Sharer-User-Id': {}", bookingId, userId);
         ResponseEntity<Object> response = bookingClient.getBooking(userId, bookingId);

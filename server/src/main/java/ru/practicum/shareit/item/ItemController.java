@@ -17,8 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/items")
 public class ItemController {
-    private final ItemService itemService;
     private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+    private final ItemService itemService;
 
     @Autowired
     public ItemController(ItemService itemServiceArg) {
@@ -70,9 +70,9 @@ public class ItemController {
 
     @GetMapping(path = "/search")
     public List<ItemDto> searchItemsForUser(@RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-            @RequestParam String text,
-            @RequestParam(required = false, defaultValue = "0") Integer from,
-            @RequestParam(required = false, defaultValue = "10") Integer size) {
+                                            @RequestParam String text,
+                                            @RequestParam(required = false, defaultValue = "0") Integer from,
+                                            @RequestParam(required = false, defaultValue = "10") Integer size) {
         log.info("Пришел GET /items/search?text={}&from={}&size={} запрос c заголовком 'X-Sharer-User-Id': " + '\n' +
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", text, userId, from, size);
         final List<ItemDto> itemsList = itemService.searchItems(userId, text, from, size);

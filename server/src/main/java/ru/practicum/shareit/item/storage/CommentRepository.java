@@ -11,6 +11,6 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     @Query(value = "SELECT * FROM comments " +
             "WHERE item_id IN ( SELECT id FROM items " +
-                                "WHERE owner_id = :ownerId)", nativeQuery = true)
+            "WHERE owner_id = :ownerId)", nativeQuery = true)
     List<Comment> findCommentsByItemOwner(int ownerId);
 }

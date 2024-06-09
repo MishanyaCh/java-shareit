@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-    private final UserService userService;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userServiceArg) {
