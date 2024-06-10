@@ -21,9 +21,7 @@ import ru.practicum.shareit.util.FutureBookingComparator;
 import ru.practicum.shareit.util.PastBookingComparator;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static ru.practicum.shareit.util.Page.getPage;
 
@@ -100,6 +98,12 @@ public class ItemServiceImpl implements ItemService {
                     .toItemDtoWithBookingAndComment(item, last, next, commentDtoList);
             result.add(itemDto);
         }
+        Collections.sort(result, new Comparator<ItemDtoWithBookingAndComment>() {
+            @Override
+            public int compare(ItemDtoWithBookingAndComment o1, ItemDtoWithBookingAndComment o2) {
+                return o1.getId() - o2.getId();
+            }
+        });
         return result;
     }
 

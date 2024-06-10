@@ -51,7 +51,7 @@ public class ItemController {
             @RequestParam(required = false, defaultValue = "10") @Min(1) @Max(25) Long size) {
         log.info("Пришел GET /items?from={}&size={} запрос c заголовком 'X-Sharer-User-Id': " + '\n' +
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", userId, from, size);
-        ResponseEntity<Object> response = itemClient.getItems(userId);
+        ResponseEntity<Object> response = itemClient.getItems(userId, from, size);
         log.info("На GET /items запрос отправлен ответ с размером тела: {}", response);
         return response;
     }
