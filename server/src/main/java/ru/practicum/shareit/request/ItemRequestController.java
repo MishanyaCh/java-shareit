@@ -10,6 +10,9 @@ import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestDtoWithAnswers;
 import ru.practicum.shareit.request.service.ItemRequestService;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Validated
@@ -48,8 +51,8 @@ public class ItemRequestController {
     @GetMapping(path = "/all")
     public List<ItemRequestDtoWithAnswers> getOtherRequestsWithAnswers(
             @RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-            @RequestParam Integer from,
-            @RequestParam Integer size) {
+            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(required = false, defaultValue = "10") @Min(1) @Max(25) Integer size) {
         log.info("Пришел GET /requests/all&from={}&size={} запрос c заголовком 'X-Sharer-User-Id'. " +
                 '\n' + "Содержимое заголовка 'X-Sharer-User-Id': {}", from, size, userId);
         final List<ItemRequestDtoWithAnswers> result = itemRequestService.getOtherRequestsWithItems(userId, from, size);
