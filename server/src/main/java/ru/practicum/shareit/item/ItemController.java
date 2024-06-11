@@ -4,19 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBookingAndComment;
 import ru.practicum.shareit.item.service.ItemService;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
-@Validated
 @RestController
 @RequestMapping(path = "/items")
 public class ItemController {
@@ -52,8 +47,8 @@ public class ItemController {
     @GetMapping
     public List<ItemDtoWithBookingAndComment> getAllOwnerItems(
             @RequestHeader(value = "X-Sharer-User-Id") Integer userId,
-            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
-            @RequestParam(required = false, defaultValue = "10") @Min(1) @Max(25) Integer size) {
+            @RequestParam(required = false, defaultValue = "0") Integer from,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
         log.info("Пришел GET /items?from={}&size={} запрос c заголовком 'X-Sharer-User-Id': " + '\n' +
                 "Содержимое заголовка 'X-Sharer-User-Id': {}", userId, from, size);
         final List<ItemDtoWithBookingAndComment> items = itemService.getItems(userId, from, size);
