@@ -1,4 +1,8 @@
-DROP TABLE IF EXISTS users, items, bookings, comments, item_requests;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS item_requests;
 
 CREATE TABLE IF NOT EXISTS users
 (
